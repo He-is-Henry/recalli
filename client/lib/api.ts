@@ -103,6 +103,15 @@ export interface ClickResult {
 }
 
 // Admin
+
+export const getAdmins = () =>
+  request<{ email: string; role: string; _id: string }[]>("/users?role=admin");
+
+export const makeAdmins = (email: string) =>
+  request<{ email: string; role: string }>("/users/promote", {
+    method: "PATCH",
+    body: JSON.stringify({ email }),
+  });
 export interface LevelWithPattern extends Level {
   _id: string;
   pattern: number[];

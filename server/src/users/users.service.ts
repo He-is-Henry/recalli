@@ -1,39 +1,24 @@
 import {
-  ConflictException,
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users, UsersDocument } from './users.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(Users.name) private usersModel: Model<Users>) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const { password, ...details } = createUserDto;
-    const exists = await this.usersModel.find({ email: details.email });
-    if (exists) throw new ConflictException('Email already exist');
-    const hashed = await bcrypt.hash(password, 10);
-
-    const userObject = {
-      password: hashed,
-      ...details,
-    };
-    const user = await this.usersModel.create(userObject);
-    const obj = user.toObject() as Partial<typeof user>;
-    delete obj.password;
-    delete obj.sessions;
-
-    return;
-  }
-
-  findAll() {
-    return this.usersModel.find();
+  async findAll(role?: string) {
+    console.log(role);
+    if (!role) return this.usersModel.find();
+    if (role !== 'admin' && role !== 'user') throw new BadRequestException();
+    const users = await this.usersModel.find({ role });
+    console.log(users);
+    return users.map((u) => this.removeSensitiveField(u));
   }
 
   async findOne(id: string) {
@@ -46,6 +31,14 @@ export class UsersService {
 
   findByEmail(email: string) {
     return this.usersModel.findOne({ email });
+  }
+
+  async promote(email: string) {
+    const user = await this.findByEmail(email);
+    if (!user) throw new NotFoundException();
+    user.role = 'admin';
+    await user.save();
+    return this.removeSensitiveField(user);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
