@@ -33,7 +33,7 @@ export class AuthService {
     delete obj.password;
     delete obj.sessions;
 
-    return;
+    return user;
   }
   async signIn(email: string, password: string) {
     const user = await this.findByEmail(email);
