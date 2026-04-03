@@ -1,0 +1,92 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.5rem;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a78bfa;
+}
+
+.grid {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.miniGrid {
+  display: grid;
+  gap: 3px;
+  width: 80px;
+}
+
+.miniTile {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.miniTile.active {
+  background: #7c3aed;
+  border-color: #a78bfa;
+}
+
+.story {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.editBtn {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.editBtn:hover {
+  border-color: #a78bfa;
+  color: #a78bfa;
+}

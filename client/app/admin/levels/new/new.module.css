@@ -1,0 +1,227 @@
+.main {
+  min-height: 100vh;
+  background: #0a0a0f;
+  padding: 3rem 2rem;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.backBtn:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.title {
+  font-family: "Georgia", serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  flex: 1;
+}
+
+.modeToggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.modeBtn {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.modeActive {
+  background: #7c3aed;
+  color: #fff;
+}
+
+/* JSON mode */
+.jsonMode {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.jsonInputSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.jsonTextarea {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: "Courier New", monospace;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+}
+
+.jsonTextarea:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: #f87171;
+  padding: 0.5rem;
+  background: rgba(248, 113, 113, 0.08);
+  border-radius: 6px;
+}
+
+.parseBtn {
+  align-self: flex-end;
+  padding: 0.75rem 1.5rem;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.parseBtn:hover {
+  background: #6d28d9;
+}
+
+.jsonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.jsonSummary {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+.jsonActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.resetBtn {
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.resetBtn:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.saveAllBtn {
+  padding: 0.6rem 1.25rem;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  min-height: 36px;
+}
+
+.saveAllBtn:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.saveAllBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.entriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.25rem;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

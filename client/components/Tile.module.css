@@ -1,0 +1,88 @@
+.tile {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tile:hover:not(.correct):not(.warned) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.04);
+}
+
+/* Correct — revealed with pattern color */
+.tile.correct {
+  background: #7c3aed;
+  border-color: #a78bfa;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+  cursor: default;
+  animation: revealPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes revealPop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Warned — wrong click, blocked but visible */
+.tile.warned {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  cursor: not-allowed;
+  animation: shake 0.35s ease;
+}
+
+.tile.warned:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  transform: none;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Game lost — everything dims */
+.tile.lost {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tile.correct.lost,
+.tile.warned.lost {
+  opacity: 0.7;
+}

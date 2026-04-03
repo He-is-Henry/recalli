@@ -1,0 +1,88 @@
+.main {
+  min-height: 100vh;
+  background: #0a0a0f;
+  padding: 3rem 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto 2.5rem;
+}
+
+.title {
+  font-family: "Georgia", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.subtitle {
+  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.newBtn {
+  padding: 0.7rem 1.25rem;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.newBtn:hover {
+  background: #6d28d9;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.skeletonGrid {
+  display: flex;
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.skeleton {
+  flex: 1;
+  height: 200px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.error {
+  text-align: center;
+  color: #f87171;
+  font-size: 0.9rem;
+}

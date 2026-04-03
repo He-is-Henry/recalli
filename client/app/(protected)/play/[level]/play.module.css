@@ -1,0 +1,228 @@
+.main {
+  min-height: 100vh;
+  background: #0a0a0f;
+  background-image: radial-gradient(
+    ellipse 60% 40% at 50% 0%,
+    rgba(99, 60, 180, 0.1) 0%,
+    transparent 70%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem;
+}
+
+/* Loader */
+.loaderGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: auto;
+}
+
+.loaderTile {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1);
+  }
+  50% {
+    background: rgba(124, 58, 237, 0.5);
+    border-color: rgba(139, 92, 246, 0.8);
+    transform: scale(1.08);
+  }
+}
+
+/* Clue screen */
+.clueScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+}
+
+.clueHeading {
+  font-family: "Georgia", serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.storyText {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.audio,
+.video {
+  width: 100%;
+  border-radius: 8px;
+  outline: none;
+}
+
+.beginBtn {
+  margin-top: 0.5rem;
+  padding: 0.85rem 2.5rem;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
+
+.beginBtn:hover {
+  background: #6d28d9;
+}
+
+.beginBtn:active {
+  transform: scale(0.98);
+}
+
+/* Game header */
+.gameHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 1rem;
+}
+
+.levelBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a78bfa;
+}
+
+.warnings {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.warningDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+}
+
+.warningActive {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+}
+
+.warningGone {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Collapsible clue */
+.clueCollapsible {
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 1.25rem;
+}
+
+.clueToggle {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.clueToggle:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.clueDropdown {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: dropIn 0.2s ease;
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Board */
+.boardWrapper {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* Progress */
+.progress {
+  margin-top: 1.25rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Error */
+.error {
+  color: #f87171;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.backBtn:hover {
+  color: rgba(255, 255, 255, 0.7);
+}

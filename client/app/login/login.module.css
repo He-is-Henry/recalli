@@ -1,0 +1,158 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0f;
+  background-image: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(99, 60, 180, 0.15) 0%,
+    transparent 70%
+  );
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brandName {
+  font-family: "Georgia", serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.brandSub {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.input:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: #f87171;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(248, 113, 113, 0.08);
+  border-radius: 6px;
+}
+
+.button {
+  margin-top: 0.4rem;
+  padding: 0.85rem;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+}
+
+.button:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.link {
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
