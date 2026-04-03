@@ -5,7 +5,10 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: process.env.NODE_ENV === 'production' ? [] : '*',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? ['https://recalli.vercel.app']
+        : '*',
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
