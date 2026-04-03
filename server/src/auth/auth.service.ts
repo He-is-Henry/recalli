@@ -12,9 +12,9 @@ export class AuthService {
 
   async signIn(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
-    if (!user) throw new UnauthorizedException();
+    if (!user) throw new UnauthorizedException('Invalid details');
     const match = await bcrypt.compare(password, user.password);
-    if (!match) throw new UnauthorizedException();
+    if (!match) throw new UnauthorizedException('Invalid details');
     const payload = {
       sub: user._id,
       email: user.email,
