@@ -10,10 +10,10 @@ interface Props {
 }
 
 export default function Tile({ index, state, isLost, onClick }: Props) {
-  const handleClick = () => {
+  const handleClick = async () => {
     if (state === "correct") return;
     if (isLost) return;
-    onClick(index);
+    await onClick(index);
   };
 
   return (

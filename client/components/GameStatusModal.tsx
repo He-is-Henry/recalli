@@ -5,6 +5,9 @@ interface Props {
   level: number;
   onRestart: () => void;
   onLevels: () => void;
+  onNextLevel: () => void;
+  onReview: () => void;
+  phase: string;
 }
 
 export default function GameStatusModal({
@@ -12,6 +15,9 @@ export default function GameStatusModal({
   level,
   onRestart,
   onLevels,
+  onNextLevel,
+  onReview,
+  phase,
 }: Props) {
   const isWon = status === "won";
 
@@ -31,7 +37,11 @@ export default function GameStatusModal({
         </div>
 
         <h2 className={styles.heading}>
-          {isWon ? "Pattern Found" : "Pattern Lost"}
+          {isWon
+            ? phase === "reviewed"
+              ? "Pattern reviewed"
+              : "Pattern Found"
+            : "Pattern Lost"}
         </h2>
 
         <p className={styles.sub}>
@@ -47,6 +57,16 @@ export default function GameStatusModal({
           <button className={styles.secondaryBtn} onClick={onLevels}>
             All Levels
           </button>
+          {isWon && (
+            <>
+              <button className={styles.secondaryBtn} onClick={onNextLevel}>
+                Next level ({level + 1})
+              </button>
+              <button className={styles.secondaryBtn} onClick={onReview}>
+                Review this level {phase === "reviewed" && "again"}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -46,13 +46,18 @@ export default function LevelsPage() {
 
       {!loading && !error && (
         <div className={styles.grid}>
-          {levels.map((level) => (
-            <LevelCard
-              key={level.level}
-              level={level}
-              onClick={() => router.push(`/play/${level.level}`)}
-            />
-          ))}
+          {levels.map((level, i) => {
+            const previous = levels.find((l) => l.level === level.level - 1);
+            const canPlay = !previous || previous.status === "won";
+            return (
+              <LevelCard
+                key={level.level}
+                level={level}
+                canPlay={canPlay}
+                onClick={() => router.push(`/play/${level.level}`)}
+              />
+            );
+          })}
         </div>
       )}
     </main>

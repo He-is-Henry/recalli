@@ -42,4 +42,12 @@ export class GameSessionsController {
       true,
     );
   }
+
+  @Post(':level/review')
+  async reviewGame(@Param('level') level: string, @Req() request: Request) {
+    return await this.gameSessionsService.handleReview(
+      request.user!.sub,
+      +level,
+    );
+  }
 }

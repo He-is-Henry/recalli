@@ -1,19 +1,23 @@
 import { Level } from "@/lib/api";
 import styles from "./LevelCard.module.css";
+import toast from "react-hot-toast";
 
 interface Props {
   level: Level;
   onClick: () => void;
+  canPlay: boolean;
 }
 
-export default function LevelCard({ level, onClick }: Props) {
+export default function LevelCard({ level, onClick, canPlay }: Props) {
   const [rows, cols] = level.grid;
 
-  console.log(level);
+  const cannotPlay = async () => {
+    toast.error("Please complete previous levels");
+  };
   return (
     <button
       className={`${styles.card} ${level.status ? styles[level.status] : ""}`}
-      onClick={onClick}
+      onClick={canPlay ? onClick : cannotPlay}
     >
       <div className={styles.top}>
         <span className={styles.number}>Level {level.level}</span>

@@ -26,4 +26,12 @@ export class CreateGameSessionDto {
   @IsOptional()
   @IsEnum(GameStatus)
   status?: GameStatus;
+
+  @IsArray()
+  @IsOptional()
+  clicks?: {
+    boxIndex: number;
+    correct: boolean;
+    createdAt: string;
+  }[];
 }

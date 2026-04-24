@@ -8,12 +8,12 @@ import {
   restartSession,
   GameSession,
   ApiError,
+  reviewSession,
+  ReviewResult,
 } from "@/lib/api";
 import GameBoard from "@/components/GameBoard";
 import GameStatusModal from "@/components/GameStatusModal";
 import styles from "./play.module.css";
-
-const MAX_WARNINGS = 3;
 
 export default function PlayPage() {
   const router = useRouter();
@@ -23,10 +23,20 @@ export default function PlayPage() {
   const [session, setSession] = useState<GameSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [phase, setPhase] = useState<"clue" | "playing">("clue");
+  const [phase, setPhase] = useState<
+    "clue" | "playing" | "reviewing" | "reviewed"
+  >("clue");
   const [clueOpen, setClueOpen] = useState(false);
   const [clicking, setClicking] = useState(false);
+  const [warned, setWarned] = useState<number[]>([]);
 
+  const triggerWarn = (index: number) => {
+    setWarned((prev) => [...prev, index]);
+
+    setTimeout(() => {
+      setWarned((prev) => prev.filter((i) => i !== index));
+    }, 3000);
+  };
   const loadSession = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -34,11 +44,7 @@ export default function PlayPage() {
       const data = await startSession(level);
       setSession(data);
       // If resuming a session already in progress, skip clue screen
-      if (
-        data.status !== "playing" ||
-        data.found.length > 0 ||
-        data.warnings.length > 0
-      ) {
+      if (data.status !== "playing" || data.found.length > 0) {
         setPhase("playing");
       } else {
         setPhase("clue");
@@ -55,21 +61,27 @@ export default function PlayPage() {
   }, [loadSession]);
 
   const handleTileClick = async (boxIndex: number) => {
+    if (phase === "reviewing") return;
     if (!session || clicking) return;
     setClicking(true);
     try {
       const result = await clickTile(level, boxIndex);
+      const isWrong =
+        result.status !== "won" && !result.found.includes(boxIndex);
       setSession((prev) =>
         prev
           ? {
               ...prev,
               found: result.found,
-              warnings: result.warnings,
               status: result.status,
             }
           : prev,
       );
+
+      if (isWrong) triggerWarn(boxIndex);
+      return isWrong;
     } catch (err) {
+      console.log(err);
       // tile click errors are non-fatal, session state is source of truth
     } finally {
       setClicking(false);
@@ -83,6 +95,49 @@ export default function PlayPage() {
       setPhase("clue");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Failed to restart");
+    }
+  };
+
+  const handleReviewTileClick = async (
+    click: ReviewResult["clicks"][number],
+  ) => {
+    if (!click) return;
+
+    if (click.correct) {
+      setSession((prev) =>
+        prev ? { ...prev, found: [...prev.found, click.boxIndex] } : prev,
+      );
+    }
+
+    if (!click.correct) triggerWarn(click.boxIndex);
+
+    return !click.correct;
+  };
+
+  const handleReview = async () => {
+    try {
+      const res = await reviewSession(level);
+      setPhase("reviewing");
+
+      setSession((prev) => (prev ? { ...prev, found: [] } : prev));
+      setWarned([]);
+      let i: number = 0;
+
+      const playNext = () => {
+        console.log(i);
+        console.log(res.clicks);
+        if (i >= res.clicks.length) {
+          return setPhase("reviewed");
+        }
+
+        const click = res.clicks[i];
+        handleReviewTileClick(click);
+        i++;
+        setTimeout(playNext, 1500);
+      };
+      playNext();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Failed to review");
     }
   };
 
@@ -117,8 +172,6 @@ export default function PlayPage() {
   }
 
   if (!session) return null;
-
-  const warningsLeft = MAX_WARNINGS - session.warnings.length;
 
   // Clue / pre-game screen
   if (phase === "clue") {
@@ -158,12 +211,15 @@ export default function PlayPage() {
   // Game screen
   return (
     <main className={styles.main}>
-      {session.status !== "playing" && (
+      {session.status !== "playing" && phase !== "reviewing" && (
         <GameStatusModal
           status={session.status as "won" | "lost"}
           level={level}
           onRestart={handleRestart}
           onLevels={() => router.push("/levels")}
+          onNextLevel={() => router.push(`/play/${level + 1}`)}
+          onReview={handleReview}
+          phase={phase}
         />
       )}
 
@@ -176,15 +232,6 @@ export default function PlayPage() {
         </button>
 
         <span className={styles.levelBadge}>Level {level}</span>
-
-        <div className={styles.warnings}>
-          {Array.from({ length: MAX_WARNINGS }).map((_, i) => (
-            <div
-              key={i}
-              className={`${styles.warningDot} ${i < warningsLeft ? styles.warningActive : styles.warningGone}`}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Collapsible clue */}
@@ -213,9 +260,9 @@ export default function PlayPage() {
           rows={session.grid[0]}
           cols={session.grid[1]}
           found={session.found}
-          warnings={session.warnings}
           isLost={session.status === "lost"}
           onTileClick={handleTileClick}
+          warned={warned}
         />
       </div>
 

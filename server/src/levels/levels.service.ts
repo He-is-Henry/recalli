@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateLevelDto } from './dto/create-level.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,8 +13,16 @@ export class LevelsService {
     @InjectModel(GameSessions.name)
     private gameSessionsModel: Model<GameSessions>,
   ) {}
-  create(createLevelDto: CreateLevelDto) {
-    return this.levelsModel.create(createLevelDto);
+  async create(createLevelDto: CreateLevelDto) {
+    const latestLevel = await this.levelsModel
+      .findOne()
+      .sort({ level: -1 })
+      .select('level');
+    if (latestLevel && latestLevel.level !== createLevelDto.level)
+      throw new BadRequestException(
+        `Next level must follow last level: ${latestLevel.level} - ${latestLevel.level + 1}`,
+      );
+    return await this.levelsModel.create(createLevelDto);
   }
 
   findAll() {

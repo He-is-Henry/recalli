@@ -1,28 +1,29 @@
 import Tile, { TileState } from "./Tile";
 import styles from "./GameBoard.module.css";
+import { useState } from "react";
 
 interface Props {
   rows: number;
   cols: number;
   found: number[];
-  warnings: number[];
   isLost: boolean;
-  onTileClick: (index: number) => void;
+  onTileClick: (index: number) => Promise<boolean | undefined>;
+  warned: number[];
 }
 
 export default function GameBoard({
   rows,
   cols,
   found,
-  warnings,
   isLost,
   onTileClick,
+  warned,
 }: Props) {
   const total = rows * cols;
 
   const getState = (index: number): TileState => {
     if (found.includes(index)) return "correct";
-    if (warnings.includes(index)) return "warned";
+    if (warned.includes(index)) return "warned";
     return "hidden";
   };
 
@@ -34,15 +35,17 @@ export default function GameBoard({
         gridTemplateRows: `repeat(${rows}, 1fr)`,
       }}
     >
-      {Array.from({ length: total }).map((_, i) => (
-        <Tile
-          key={i}
-          index={i + 1}
-          state={getState(i + 1)}
-          isLost={isLost}
-          onClick={onTileClick}
-        />
-      ))}
+      {Array.from({ length: total }).map((_, i) => {
+        return (
+          <Tile
+            key={i}
+            index={i + 1}
+            state={getState(i + 1)}
+            isLost={isLost}
+            onClick={onTileClick}
+          />
+        );
+      })}
     </div>
   );
 }

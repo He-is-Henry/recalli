@@ -18,6 +18,13 @@ export class GameSessions {
   level: number;
 
   @Prop({ default: [] })
+  clicks: {
+    boxIndex: number;
+    correct: boolean;
+    createdAt: Date;
+  }[];
+
+  @Prop({ default: [] })
   found: number[];
 
   @Prop({ default: [] })
