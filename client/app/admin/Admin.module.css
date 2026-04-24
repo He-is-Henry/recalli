@@ -74,7 +74,7 @@
 
 .input:focus {
   border-color: var(--primary);
-  background: rgba(44, 122, 110, 0.08);
+  background: rgba(230, 126, 34, 0.08);
 }
 
 .button {
@@ -92,5 +92,5 @@
 }
 
 .button:hover {
-  background: #235f55;
+  background: var(--primary-dark);
 }

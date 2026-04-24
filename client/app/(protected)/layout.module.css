@@ -29,7 +29,43 @@
     transform: scale(1);
   }
   50% {
-    background: rgba(44, 122, 110, 0.4);
+    background: rgba(230, 126, 34, 0.4);
+    border-color: var(--primary);
+    transform: scale(1.08);
+  }
+}
+.loaderWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.tile {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--border);
+    transform: scale(1);
+  }
+  50% {
+    background: rgba(230, 126, 34, 0.4);
     border-color: var(--primary);
     transform: scale(1.08);
   }

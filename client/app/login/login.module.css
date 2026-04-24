@@ -6,7 +6,7 @@
   background: var(--bg);
   background-image: radial-gradient(
     ellipse 60% 50% at 50% 0%,
-    rgba(44, 122, 110, 0.2) 0%,
+    rgba(230, 126, 34, 0.15) 0%,
     transparent 70%
   );
 }
@@ -18,7 +18,7 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 24px 80px rgba(44, 122, 110, 0.1);
+  box-shadow: 0 24px 80px rgba(230, 126, 34, 0.1);
 }
 
 .brand {
@@ -79,7 +79,7 @@
 
 .input:focus {
   border-color: var(--primary);
-  background: rgba(44, 122, 110, 0.08);
+  background: rgba(230, 126, 34, 0.08);
   color: var(--text);
 }
 .error {
@@ -113,7 +113,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background: #235f55;
+  background: var(--primary-dark);
 }
 
 .button:active:not(:disabled) {

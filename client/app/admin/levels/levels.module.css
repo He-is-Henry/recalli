@@ -44,7 +44,7 @@
 }
 
 .newBtn:hover {
-  background: #235f55;
+  background: var(--primary-dark);
 }
 
 .grid {

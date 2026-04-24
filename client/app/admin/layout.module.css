@@ -29,7 +29,7 @@
     transform: scale(1);
   }
   50% {
-    background: rgba(44, 122, 110, 0.4);
+    background: rgba(230, 126, 34, 0.4);
     border-color: var(--primary);
     transform: scale(1.08);
   }

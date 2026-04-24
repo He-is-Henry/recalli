@@ -3,7 +3,7 @@
   background: var(--bg);
   background-image: radial-gradient(
     ellipse 60% 40% at 50% 0%,
-    rgba(44, 122, 110, 0.15) 0%,
+    rgba(230, 126, 34, 0.12) 0%,
     transparent 70%
   );
   display: flex;
@@ -37,7 +37,7 @@
     transform: scale(1);
   }
   50% {
-    background: rgba(44, 122, 110, 0.4);
+    background: rgba(230, 126, 34, 0.4);
     border-color: var(--primary);
     transform: scale(1.08);
   }
@@ -95,7 +95,7 @@
 }
 
 .beginBtn:hover {
-  background: #235f55;
+  background: var(--primary-dark);
 }
 
 .beginBtn:active {

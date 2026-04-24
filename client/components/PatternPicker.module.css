@@ -26,7 +26,7 @@
 }
 
 .tile:hover {
-  background: rgba(44, 122, 110, 0.1);
+  background: rgba(230, 126, 34, 0.1);
   border-color: var(--primary);
   transform: scale(1.04);
 }
