@@ -1,6 +1,6 @@
 .main {
   min-height: 100vh;
-  background: #0a0a0f;
+  background: var(--bg);
   padding: 3rem 2rem;
 }
 
@@ -19,7 +19,7 @@
 .backBtn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -28,14 +28,14 @@
 }
 
 .backBtn:hover {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text);
 }
 
 .title {
   font-family: "Georgia", serif;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   margin: 0;
 }
 
@@ -62,7 +62,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--muted);
 }
 
 .optional {
@@ -74,25 +74,26 @@
 
 .input {
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text);
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input:focus {
-  border-color: rgba(139, 92, 246, 0.6);
+  border-color: var(--primary);
+  background: rgba(44, 122, 110, 0.08);
 }
 
 .textarea {
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text);
   font-size: 0.95rem;
   outline: none;
   resize: vertical;
@@ -101,20 +102,21 @@
 }
 
 .textarea:focus {
-  border-color: rgba(139, 92, 246, 0.6);
+  border-color: var(--primary);
+  background: rgba(44, 122, 110, 0.08);
 }
 
 .patternHint {
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--muted);
   margin: 0;
 }
 
 .error {
   font-size: 0.82rem;
-  color: #f87171;
+  color: var(--danger);
   padding: 0.5rem;
-  background: rgba(248, 113, 113, 0.08);
+  background: rgba(192, 57, 43, 0.08);
   border-radius: 6px;
   text-align: center;
 }
@@ -127,7 +129,7 @@
 .saveBtn {
   flex: 1;
   padding: 0.85rem;
-  background: #7c3aed;
+  background: var(--primary);
   color: #fff;
   font-size: 0.9rem;
   font-weight: 700;
@@ -146,7 +148,7 @@
 }
 
 .saveBtn:hover:not(:disabled) {
-  background: #6d28d9;
+  background: #235f55;
 }
 
 .saveBtn:disabled {
@@ -157,12 +159,12 @@
 .deleteBtn {
   padding: 0.85rem 1.5rem;
   background: transparent;
-  color: rgba(239, 68, 68, 0.6);
+  color: rgba(192, 57, 43, 0.6);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(192, 57, 43, 0.3);
   border-radius: 8px;
   cursor: pointer;
   transition:
@@ -176,19 +178,19 @@
 }
 
 .deleteBtn:hover:not(:disabled) {
-  border-color: rgba(239, 68, 68, 0.6);
-  color: #ef4444;
+  border-color: rgba(192, 57, 43, 0.6);
+  color: var(--danger);
 }
 
 .deleteBtnConfirm {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: #ef4444;
-  color: #ef4444;
+  background: rgba(192, 57, 43, 0.15);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .deleteWarning {
   font-size: 0.78rem;
-  color: rgba(239, 68, 68, 0.6);
+  color: rgba(192, 57, 43, 0.6);
   text-align: center;
   margin: 0;
 }
@@ -209,7 +211,7 @@
   height: 28px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -217,12 +219,12 @@
   0%,
   100% {
     background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border);
     transform: scale(1);
   }
   50% {
-    background: rgba(124, 58, 237, 0.5);
-    border-color: rgba(139, 92, 246, 0.8);
+    background: rgba(44, 122, 110, 0.4);
+    border-color: var(--primary);
     transform: scale(1.08);
   }
 }

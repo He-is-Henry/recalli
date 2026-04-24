@@ -1,9 +1,9 @@
 .main {
   min-height: 100vh;
-  background: #0a0a0f;
+  background: var(--bg);
   background-image: radial-gradient(
     ellipse 60% 40% at 50% 0%,
-    rgba(99, 60, 180, 0.1) 0%,
+    rgba(44, 122, 110, 0.15) 0%,
     transparent 70%
   );
   display: flex;
@@ -25,7 +25,7 @@
   height: 28px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -33,12 +33,12 @@
   0%,
   100% {
     background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border);
     transform: scale(1);
   }
   50% {
-    background: rgba(124, 58, 237, 0.5);
-    border-color: rgba(139, 92, 246, 0.8);
+    background: rgba(44, 122, 110, 0.4);
+    border-color: var(--primary);
     transform: scale(1.08);
   }
 }
@@ -59,13 +59,13 @@
   font-family: "Georgia", serif;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   margin: 0;
 }
 
 .storyText {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--muted);
   line-height: 1.7;
   margin: 0;
 }
@@ -80,7 +80,7 @@
 .beginBtn {
   margin-top: 0.5rem;
   padding: 0.85rem 2.5rem;
-  background: #7c3aed;
+  background: var(--primary);
   color: #fff;
   font-size: 0.95rem;
   font-weight: 700;
@@ -95,7 +95,7 @@
 }
 
 .beginBtn:hover {
-  background: #6d28d9;
+  background: #235f55;
 }
 
 .beginBtn:active {
@@ -117,7 +117,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a78bfa;
+  color: var(--accent);
 }
 
 .warnings {
@@ -136,8 +136,8 @@
 }
 
 .warningActive {
-  background: #ef4444;
-  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+  background: var(--danger);
+  box-shadow: 0 0 6px rgba(192, 57, 43, 0.6);
 }
 
 .warningGone {
@@ -154,7 +154,7 @@
 .clueToggle {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -164,14 +164,14 @@
 }
 
 .clueToggle:hover {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text);
 }
 
 .clueDropdown {
   margin-top: 0.75rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -202,12 +202,12 @@
   font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--muted);
 }
 
 /* Error */
 .error {
-  color: #f87171;
+  color: var(--danger);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -215,7 +215,7 @@
 .backBtn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -224,5 +224,5 @@
 }
 
 .backBtn:hover {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text);
 }

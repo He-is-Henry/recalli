@@ -3,10 +3,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a0a0f;
+  background: var(--bg);
   background-image: radial-gradient(
     ellipse 60% 50% at 50% 0%,
-    rgba(99, 60, 180, 0.15) 0%,
+    rgba(44, 122, 110, 0.2) 0%,
     transparent 70%
   );
 }
@@ -15,10 +15,10 @@
   width: 100%;
   max-width: 400px;
   padding: 2.5rem;
-  background: #111118;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 80px rgba(44, 122, 110, 0.1);
 }
 
 .brand {
@@ -31,13 +31,13 @@
   font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--primary);
 }
 
 .brandSub {
   margin-top: 0.4rem;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -59,42 +59,42 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--muted);
 }
 
 .input {
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text);
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--muted);
 }
 
 .input:focus {
-  border-color: rgba(139, 92, 246, 0.6);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--primary);
+  background: rgba(44, 122, 110, 0.08);
+  color: var(--text);
 }
-
 .error {
   font-size: 0.82rem;
-  color: #f87171;
+  color: var(--danger);
   text-align: center;
   padding: 0.5rem;
-  background: rgba(248, 113, 113, 0.08);
+  background: rgba(192, 57, 43, 0.08);
   border-radius: 6px;
 }
 
 .button {
   margin-top: 0.4rem;
   padding: 0.85rem;
-  background: #7c3aed;
+  background: var(--primary);
   color: #fff;
   font-size: 0.9rem;
   font-weight: 700;
@@ -113,7 +113,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background: #6d28d9;
+  background: #235f55;
 }
 
 .button:active:not(:disabled) {
@@ -144,11 +144,11 @@
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
 }
 
 .link {
-  color: #a78bfa;
+  color: var(--accent);
   text-decoration: none;
   font-weight: 600;
 }

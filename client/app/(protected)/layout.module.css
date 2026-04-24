@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a0a0f;
+  background: var(--bg);
 }
 
 .tileGrid {
@@ -17,7 +17,7 @@
   height: 28px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -25,12 +25,12 @@
   0%,
   100% {
     background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border);
     transform: scale(1);
   }
   50% {
-    background: rgba(124, 58, 237, 0.5);
-    border-color: rgba(139, 92, 246, 0.8);
+    background: rgba(44, 122, 110, 0.4);
+    border-color: var(--primary);
     transform: scale(1.08);
   }
 }

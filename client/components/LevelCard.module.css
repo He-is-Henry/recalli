@@ -3,8 +3,8 @@
   flex-direction: column;
   gap: 0.85rem;
   padding: 1.5rem;
-  background: #111118;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 14px;
   cursor: pointer;
   text-align: left;
@@ -16,9 +16,9 @@
 }
 
 .card:hover {
-  border-color: rgba(139, 92, 246, 0.5);
+  border-color: var(--primary);
   transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(99, 60, 180, 0.2);
+  box-shadow: 0 12px 40px rgba(44, 122, 110, 0.2);
 }
 
 .card:active {
@@ -26,15 +26,15 @@
 }
 
 .card.won {
-  border-color: rgba(124, 58, 237, 0.3);
+  border-color: rgba(44, 122, 110, 0.4);
 }
 
 .card.lost {
-  border-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(192, 57, 43, 0.3);
 }
 
 .card.playing {
-  border-color: rgba(251, 191, 36, 0.3);
+  border-color: rgba(230, 126, 34, 0.4);
 }
 
 .top {
@@ -48,12 +48,12 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a78bfa;
+  color: var(--primary);
 }
 
 .grid {
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--muted);
   letter-spacing: 0.05em;
   background: rgba(255, 255, 255, 0.05);
   padding: 0.2rem 0.5rem;
@@ -85,7 +85,7 @@
 
 .tag {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   background: rgba(255, 255, 255, 0.05);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
@@ -99,28 +99,28 @@
 }
 
 .card:hover .cta {
-  color: #a78bfa;
+  color: var(--primary);
 }
 
 .wonBadge {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #a78bfa;
+  color: var(--primary);
 }
 
 .lostBadge {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: rgba(239, 68, 68, 0.7);
+  color: var(--danger);
 }
 
 .playingBadge {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: rgba(251, 191, 36, 0.8);
+  color: var(--accent);
 }
 
 .progressBar {
@@ -134,7 +134,7 @@
 
 .progressFill {
   height: 100%;
-  background: rgba(251, 191, 36, 0.6);
+  background: var(--accent);
   border-radius: 2px;
   transition: width 0.4s ease;
 }

@@ -2,7 +2,7 @@
   width: 100%;
   aspect-ratio: 1;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition:
@@ -15,16 +15,15 @@
 }
 
 .tile:hover:not(.correct):not(.warned) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(44, 122, 110, 0.1);
+  border-color: var(--primary);
   transform: scale(1.04);
 }
 
-/* Correct — revealed with pattern color */
 .tile.correct {
-  background: #7c3aed;
-  border-color: #a78bfa;
-  box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 16px rgba(44, 122, 110, 0.5);
   cursor: default;
   animation: revealPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -40,17 +39,16 @@
   }
 }
 
-/* Warned — wrong click, blocked but visible */
 .tile.warned {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(192, 57, 43, 0.15);
+  border-color: rgba(192, 57, 43, 0.4);
   cursor: not-allowed;
   animation: shake 0.35s ease;
 }
 
 .tile.warned:hover {
-  background: rgba(239, 68, 68, 0.25);
-  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(192, 57, 43, 0.25);
+  border-color: rgba(192, 57, 43, 0.6);
   transform: none;
 }
 
@@ -75,7 +73,6 @@
   }
 }
 
-/* Game lost — everything dims */
 .tile.lost {
   opacity: 0.4;
   cursor: not-allowed;

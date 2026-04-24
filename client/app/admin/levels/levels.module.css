@@ -1,6 +1,6 @@
 .main {
   min-height: 100vh;
-  background: #0a0a0f;
+  background: var(--bg);
   padding: 3rem 2rem;
 }
 
@@ -16,7 +16,7 @@
   font-family: "Georgia", serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   margin: 0;
 }
 
@@ -25,12 +25,12 @@
   font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--muted);
 }
 
 .newBtn {
   padding: 0.7rem 1.25rem;
-  background: #7c3aed;
+  background: var(--primary);
   color: #fff;
   font-size: 0.82rem;
   font-weight: 700;
@@ -44,7 +44,7 @@
 }
 
 .newBtn:hover {
-  background: #6d28d9;
+  background: #235f55;
 }
 
 .grid {
@@ -66,8 +66,8 @@
   flex: 1;
   height: 200px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--card);
+  border: 1px solid var(--border);
   animation: shimmer 1.4s ease-in-out infinite;
 }
 
@@ -83,6 +83,6 @@
 
 .error {
   text-align: center;
-  color: #f87171;
+  color: var(--danger);
   font-size: 0.9rem;
 }
