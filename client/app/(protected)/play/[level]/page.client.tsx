@@ -33,6 +33,7 @@ export default function PlayPage({ level }: Props) {
   const [clueOpen, setClueOpen] = useState(false);
   const [clicking, setClicking] = useState(false);
   const [warned, setWarned] = useState<number[]>([]);
+  const MAX_WARNINGS = 3;
 
   const triggerWarn = (index: number) => {
     setWarned((prev) => [...prev, index]);
@@ -227,6 +228,7 @@ export default function PlayPage({ level }: Props) {
     );
   }
 
+  const warningsLeft = MAX_WARNINGS - session.warnings;
   // Game screen
   return (
     <main className={styles.main}>
@@ -251,6 +253,15 @@ export default function PlayPage({ level }: Props) {
         </button>
 
         <span className={styles.levelBadge}>Level {level}</span>
+      </div>
+
+      <div className={styles.warnings}>
+        {Array.from({ length: MAX_WARNINGS }).map((_, i) => (
+          <div
+            key={i}
+            className={`${styles.warningDot} ${i < warningsLeft ? styles.warningActive : styles.warningGone}`}
+          />
+        ))}
       </div>
 
       {/* Collapsible clue */}
