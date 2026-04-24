@@ -26,7 +26,7 @@ export class LevelsService {
   }
 
   findAll() {
-    return this.levelsModel.find();
+    return this.levelsModel.find().sort({ level: 1 });
   }
 
   async findAllPublic(user: string) {
