@@ -52,6 +52,8 @@ export class GameSessionsService {
       status: session.status,
       found: session.found,
       sessionId: session._id,
+      warnings: 0,
+      totalCorrect: levelDoc.pattern.length,
     };
   }
 
@@ -96,7 +98,7 @@ export class GameSessionsService {
       const alreadyClickedWrong = session.warnings.includes(boxIndex);
       session.warnings.push(boxIndex);
 
-      if (alreadyClickedWrong) {
+      if (alreadyClickedWrong || session.warnings.length >= 3) {
         session.status = GameStatus.LOST;
       }
     }
@@ -110,6 +112,7 @@ export class GameSessionsService {
       video: levelDoc.video,
       status: session.status,
       found: session.found,
+      warnings: session.warnings.length,
       sessionId: session._id,
     };
   }

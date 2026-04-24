@@ -156,12 +156,13 @@ export interface GameSession {
   found: number[];
   status: "playing" | "won" | "lost";
   totalCorrect: number;
+  warnings: number;
 }
 
 export interface ClickResult {
   correct: boolean;
   found: number[];
-  warnings: number[];
+  warnings: number;
   status: "playing" | "won" | "lost";
   alreadyWarned?: boolean;
 }

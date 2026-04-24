@@ -1,6 +1,5 @@
 import Tile, { TileState } from "./Tile";
 import styles from "./GameBoard.module.css";
-import { useState } from "react";
 
 interface Props {
   rows: number;
