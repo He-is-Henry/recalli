@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PatternPicker from "./PatternPicker";
 import styles from "./LevelForm.module.css";
+import { ApiError } from "@/lib/api";
 
 export interface LevelFormData {
   level: number;
@@ -64,7 +65,8 @@ export default function LevelForm({
         ...(audio ? { audio } : {}),
         ...(video ? { video } : {}),
       });
-    } catch {
+    } catch (err) {
+      setLocalError(err instanceof ApiError ? err.message : "Failed to save");
       // parent handles error display
     } finally {
       setSaving(false);

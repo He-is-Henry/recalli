@@ -14,11 +14,13 @@ import {
 import GameBoard from "@/components/GameBoard";
 import GameStatusModal from "@/components/GameStatusModal";
 import styles from "./play.module.css";
+import { useSounds } from "@/app/hooks/useSounds";
 
 export default function PlayPage() {
   const router = useRouter();
   const params = useParams();
   const level = Number(params.level);
+  const sounds = useSounds();
 
   const [session, setSession] = useState<GameSession | null>(null);
   const [loading, setLoading] = useState(true);
@@ -77,8 +79,15 @@ export default function PlayPage() {
             }
           : prev,
       );
+      if (result.status === "won") sounds.playWin();
+      if (result.status === "lost") sounds.playLose();
 
-      if (isWrong) triggerWarn(boxIndex);
+      if (isWrong) {
+        triggerWarn(boxIndex);
+        sounds.playWrong();
+      } else {
+        sounds.playCorrect();
+      }
       return isWrong;
     } catch (err) {
       console.log(err);
@@ -107,9 +116,13 @@ export default function PlayPage() {
       setSession((prev) =>
         prev ? { ...prev, found: [...prev.found, click.boxIndex] } : prev,
       );
+      sounds.playReviewCorrect();
     }
 
-    if (!click.correct) triggerWarn(click.boxIndex);
+    if (!click.correct) {
+      triggerWarn(click.boxIndex);
+      sounds.playReviewWrong();
+    }
 
     return !click.correct;
   };
@@ -199,7 +212,10 @@ export default function PlayPage() {
 
           <button
             className={styles.beginBtn}
-            onClick={() => setPhase("playing")}
+            onClick={() => {
+              sounds.playBegin();
+              setPhase("playing");
+            }}
           >
             Begin →
           </button>

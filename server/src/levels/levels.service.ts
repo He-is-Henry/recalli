@@ -55,10 +55,19 @@ export class LevelsService {
   }
 
   update(id: string, updateLevelDto: UpdateLevelDto) {
+    delete updateLevelDto.level;
     return this.levelsModel.findByIdAndUpdate(id, updateLevelDto);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const latestLevel = await this.levelsModel
+      .findOne()
+      .sort({ level: -1 })
+      .select('level');
+    if (id !== latestLevel?._id.toString())
+      throw new BadRequestException(
+        'Can only delete latest level, update this level instead',
+      );
     return this.levelsModel.findByIdAndDelete(id);
   }
 }

@@ -18,7 +18,6 @@ export default function EditLevelPage() {
   const id = params.id as string;
 
   const [original, setOriginal] = useState<LevelWithPattern | null>(null);
-  const [levelNum, setLevelNum] = useState<number>(1);
   const [rows, setRows] = useState<number>(4);
   const [cols, setCols] = useState<number>(4);
   const [story, setStory] = useState("");
@@ -35,7 +34,6 @@ export default function EditLevelPage() {
     try {
       const data = await adminGetLevel(id);
       setOriginal(data);
-      setLevelNum(data.level);
       setRows(data.grid[0]);
       setCols(data.grid[1]);
       setStory(data.story);
@@ -68,7 +66,6 @@ export default function EditLevelPage() {
     setSaving(true);
     try {
       await adminUpdateLevel(id, {
-        level: levelNum,
         grid: [rows, cols],
         pattern,
         story,
@@ -145,16 +142,6 @@ export default function EditLevelPage() {
 
         <div className={styles.form}>
           <div className={styles.row}>
-            <div className={styles.field}>
-              <label className={styles.label}>Level Number</label>
-              <input
-                className={styles.input}
-                type="number"
-                min={1}
-                value={levelNum}
-                onChange={(e) => setLevelNum(Number(e.target.value))}
-              />
-            </div>
             <div className={styles.field}>
               <label className={styles.label}>Rows</label>
               <input

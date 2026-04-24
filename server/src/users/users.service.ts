@@ -13,11 +13,9 @@ export class UsersService {
   constructor(@InjectModel(Users.name) private usersModel: Model<Users>) {}
 
   async findAll(role?: string) {
-    console.log(role);
     if (!role) return this.usersModel.find();
     if (role !== 'admin' && role !== 'user') throw new BadRequestException();
     const users = await this.usersModel.find({ role });
-    console.log(users);
     return users.map((u) => this.removeSensitiveField(u));
   }
 
