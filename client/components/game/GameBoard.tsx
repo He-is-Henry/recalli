@@ -1,4 +1,4 @@
-import Tile, { TileState } from "./game/Tile";
+import Tile, { TileState } from "./Tile";
 import styles from "./GameBoard.module.css";
 
 interface Props {

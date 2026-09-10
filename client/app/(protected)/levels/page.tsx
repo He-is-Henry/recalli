@@ -2,64 +2,113 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getLevels, Level, ApiError } from "@/lib/api";
-import LevelCard from "@/components/LevelCard";
+import { getLevels, getMySessions, Level, GameSession, ApiError } from "@/lib/api";
+import { useUser } from "@/context/UserContext";
+import LevelCard from "@/components/ui/LevelCard";
+import HealthcareSection from "@/components/HealthCareSection";
 import styles from "./levels.module.css";
 
 export default function LevelsPage() {
   const router = useRouter();
+  const { user, logout } = useUser();
+
   const [levels, setLevels] = useState<Level[]>([]);
+  const [sessions, setSessions] = useState<GameSession[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getLevels()
-      .then(setLevels)
-      .catch((err) => {
+    async function loadLevelsData() {
+      try {
+        const [levelsData, sessionsData] = await Promise.all([
+          getLevels(),
+          getMySessions(),
+        ]);
+        setLevels(levelsData);
+        setSessions(sessionsData);
+      } catch (err) {
         setError(
-          err instanceof ApiError ? err.message : "Failed to load levels",
+          err instanceof ApiError ? err.message : "Failed to load levels"
         );
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadLevelsData();
   }, []);
+
+  const isLevelUnlocked = (levelNum: number): boolean => {
+    if (levelNum === 1) return true;
+    return sessions.some(
+      (s) => s.level === levelNum - 1 && s.status === "won"
+    );
+  };
+
+  const getBestTimeForLevel = (levelNum: number): number | null => {
+    const wonSessions = sessions.filter(
+      (s) => s.level === levelNum && s.status === "won" && s.duration != null
+    );
+    if (wonSessions.length === 0) return null;
+    return Math.min(...wonSessions.map((s) => s.duration!));
+  };
 
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Recalli</h1>
-        <p className={styles.subtitle}>Choose a level to begin</p>
+        <div className={styles.headerTop}>
+          <div>
+            <h1 className={styles.title}>Recalli</h1>
+            {user && (
+              <p className={styles.userBadge}>
+                Logged in as <strong>{user.email}</strong> (ID: {user.publicId})
+              </p>
+            )}
+          </div>
+          <button onClick={logout} className={styles.logoutBtn}>
+            Logout
+          </button>
+        </div>
       </header>
 
-      {loading && (
-        <div className={styles.loadingRow}>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className={styles.skeletonCard}
-              style={{ animationDelay: `${i * 0.1}s` }}
-            />
-          ))}
-        </div>
-      )}
+      <HealthcareSection />
 
-      {error && <p className={styles.error}>{error}</p>}
+      <section className={styles.levelsSection}>
+        <h2 className={styles.sectionTitle}>Select Level</h2>
 
-      {!loading && !error && (
-        <div className={styles.grid}>
-          {levels.map((level, i) => {
-            const previous = levels.find((l) => l.level === level.level - 1);
-            const canPlay = !previous || previous.status === "won";
-            return (
-              <LevelCard
-                key={level.level}
-                level={level}
-                canPlay={canPlay}
-                onClick={() => router.push(`/play/${level.level}`)}
+        {loading && (
+          <div className={styles.loadingRow}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className={styles.skeletonCard}
+                style={{ animationDelay: `${i * 0.1}s` }}
               />
-            );
-          })}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+
+        {error && <p className={styles.error}>{error}</p>}
+
+        {!loading && !error && (
+          <div className={styles.grid}>
+            {levels.map((level) => {
+              const canPlay = isLevelUnlocked(level.level);
+              const bestTime = getBestTimeForLevel(level.level);
+
+              return (
+                <LevelCard
+                  key={level._id || level.level}
+                  level={level}
+                  canPlay={canPlay}
+                  bestTime={bestTime}
+                  onClick={() => router.push(`/play/${level.level}`)}
+                />
+              );
+            })}
+          </div>
+        )}
+      </section>
     </main>
   );
 }

@@ -21,7 +21,7 @@ export default function LoginPage() {
     try {
       const { accessToken } = await login(email, password);
       setToken(accessToken);
-      router.push("/levels");
+      router.push("/");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Something went wrong");
     } finally {

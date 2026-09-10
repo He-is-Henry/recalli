@@ -3,7 +3,6 @@ import styles from "./GameStatusModal.module.css";
 interface Props {
   status: "won" | "lost";
   level: number;
-  duration?: number;
   onRestart: () => void;
   onLevels: () => void;
   onNextLevel: () => void;
@@ -14,7 +13,6 @@ interface Props {
 export default function GameStatusModal({
   status,
   level,
-  duration,
   onRestart,
   onLevels,
   onNextLevel,
@@ -22,17 +20,6 @@ export default function GameStatusModal({
   phase,
 }: Props) {
   const isWon = status === "won";
-
-  const formatDuration = (totalSeconds: number) => {
-    const mins = Math.floor(totalSeconds / 60);
-    const secs = totalSeconds % 60;
-    if (mins > 0) {
-      return `${mins}m ${secs}s`;
-    }
-    return `${secs}s`;
-  };
-
-  console.log(duration)
 
   return (
     <div className={styles.overlay}>
@@ -62,12 +49,6 @@ export default function GameStatusModal({
             ? `You uncovered every tile on level ${level}.`
             : `The pattern on level ${level} got the better of you.`}
         </p>
-
-        {duration !== undefined && duration !== null && (
-          <p className={styles.durationStat}>
-            ⏱ Time taken: <strong>{formatDuration(duration)}</strong>
-          </p>
-        )}
 
         <div className={styles.actions}>
           <button className={styles.primaryBtn} onClick={onRestart}>

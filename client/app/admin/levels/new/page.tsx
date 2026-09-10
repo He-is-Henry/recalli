@@ -163,7 +163,7 @@ export default function NewLevelPage() {
                     <LevelForm
                       key={i}
                       initial={entry.data}
-                      onSave={(data) => handleEntrySave(i, data)}
+                      onSave={(data: LevelFormData) => handleEntrySave(i, data)}
                       saveLabel="Save"
                       error={entry.error}
                       success={entry.success}

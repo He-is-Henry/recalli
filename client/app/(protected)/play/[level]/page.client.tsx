@@ -76,11 +76,12 @@ export default function PlayPage({ level }: Props) {
       setSession((prev) =>
         prev
           ? {
-              ...prev,
-              found: result.found,
-              status: result.status,
-              warnings: result.warnings,
-            }
+            ...prev,
+            found: result.found,
+            status: result.status,
+            warnings: result.warnings,
+            duration: result.duration
+          }
           : prev,
       );
       if (result.status === "won") sounds.playWin();
@@ -240,6 +241,7 @@ export default function PlayPage({ level }: Props) {
           onLevels={() => router.push("/levels")}
           onNextLevel={() => router.push(`/play/${level + 1}`)}
           onReview={handleReview}
+          duration={session.duration}
           phase={phase}
         />
       )}

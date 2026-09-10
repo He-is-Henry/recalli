@@ -6,14 +6,22 @@ interface Props {
   level: Level;
   onClick: () => void;
   canPlay: boolean;
+  bestTime: number | null;
 }
 
-export default function LevelCard({ level, onClick, canPlay }: Props) {
-  const [rows, cols] = level.grid;
+export default function LevelCard({ level, onClick, canPlay, bestTime }: Props) {
+  const [rows, cols] = level.grid || [3, 3];
 
-  const cannotPlay = async () => {
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  };
+
+  const cannotPlay = () => {
     toast.error("Please complete previous levels");
   };
+
   return (
     <button
       className={`${styles.card} ${level.status ? styles[level.status] : ""}`}
@@ -21,6 +29,11 @@ export default function LevelCard({ level, onClick, canPlay }: Props) {
     >
       <div className={styles.top}>
         <span className={styles.number}>Level {level.level}</span>
+        {bestTime !== undefined && bestTime !== null && (
+          <span className={styles.bestTimeBadge}>
+            ⏱ {formatTime(bestTime)}
+          </span>
+        )}
         <span className={styles.grid}>
           {rows}×{cols}
         </span>

@@ -1,4 +1,4 @@
-import styles from "./Tile.module.css";
+import styles from "../Tile.module.css";
 
 export type TileState = "hidden" | "correct" | "warned";
 
