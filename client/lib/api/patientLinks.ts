@@ -1,13 +1,15 @@
+import { DashboardStats } from "../patient-hospital-links";
 import { User } from "./auth";
 import { apiClient } from "./client";
 import type { Hospital } from "./hospitals";
+import { GameSession } from "./sessions";
 
 export type LinkStatus =
-  | "pending"
-  | "verified"
-  | "rejected"
-  | "revoked"
-  | "active";
+  | "PENDING"
+  | "VERIFIED"
+  | "REJECTED"
+  | "REVOKED"
+  | "ACTIVE";
 export type LinkCreatedBy = "PATIENT" | "HOSPITAL";
 
 export interface PatientHospitalLink {
@@ -42,7 +44,7 @@ export async function getMyHospitals(): Promise<
 > {
   return apiClient("/patient-hospital-links/my-hospitals");
 }
-export async function getDashboardStats(): Promise<any> {
+export async function getDashboardStats(): Promise<DashboardStats> {
   return apiClient("/patient-hospital-links/dashboard-stats");
 }
 export async function getPatients(
@@ -56,7 +58,9 @@ export async function getPatients(
     `/patient-hospital-links/patients${params.toString() ? `?${params.toString()}` : ""}`,
   );
 }
-export async function getPatientSessions(patientId: string): Promise<any[]> {
+export async function getPatientSessions(
+  patientId: string,
+): Promise<GameSession[]> {
   return apiClient(`/patient-hospital-links/patient/${patientId}/sessions`);
 }
 export async function assignStaff(

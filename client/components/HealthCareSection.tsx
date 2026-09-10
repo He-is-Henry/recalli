@@ -73,12 +73,12 @@ export default function HealthcareSection() {
               </div>
               <span
                 className={
-                  link.status === "active"
+                  link.status === "ACTIVE"
                     ? styles.statusActive
                     : styles.statusPending
                 }
               >
-                {link.status === "active"
+                {link.status === "ACTIVE"
                   ? "Connected ✓"
                   : "Pending Verification ⏳"}
               </span>
