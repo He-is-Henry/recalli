@@ -1,4 +1,4 @@
-import {
+﻿import {
   BadRequestException,
   Injectable,
   NotFoundException,
@@ -6,8 +6,8 @@ import {
 import { CreateGameSessionDto } from './dto/create-game-session.dto';
 import { UpdateGameSessionDto } from './dto/update-game-session.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { GameSessions } from './game-sessions.schema';
-import { Model } from 'mongoose';
+import { GameSessions, GameSessionsDocument } from './game-sessions.schema';
+import { Model, Types } from 'mongoose';
 import { GameStatus } from './dto/create-game-session.dto';
 import { Levels } from '../levels/levels.schema';
 
@@ -15,34 +15,39 @@ import { Levels } from '../levels/levels.schema';
 export class GameSessionsService {
   constructor(
     @InjectModel(GameSessions.name)
-    private gameSessionsModel: Model<GameSessions>,
+    private gameSessionsModel: Model<GameSessionsDocument>,
     @InjectModel(Levels.name) private levelsModel: Model<Levels>,
   ) {}
 
   async startGame(user: string, level: number, restart?: boolean) {
     const levelDoc = await this.levelsModel.findOne({ level });
+    if (!levelDoc) throw new NotFoundException('Level not found');
+
     const canPlayLevel = await this.canPlayLevel(user, level);
-    if (!canPlayLevel.canPlay)
+    if (!canPlayLevel.canPlay) {
       throw new BadRequestException(
         `Complete level ${canPlayLevel.prev} first`,
       );
-    if (!levelDoc) throw new NotFoundException();
-    let session = await this.findOne(user, level);
+    }
 
-    if (!session) {
-      session = await this.create({
-        user,
+    let session = await this.gameSessionsModel.findOne({
+      user: new Types.ObjectId(user),
+      level,
+      status: GameStatus.PLAYING,
+    });
+
+    if (restart || !session) {
+      session = await this.gameSessionsModel.create({
+        user: new Types.ObjectId(user),
         level,
+        status: GameStatus.PLAYING,
+        startedAt: new Date(),
+        warnings: [],
+        found: [],
+        clicks: [],
       });
     }
 
-    if (restart)
-      await this.update(session.id, {
-        warnings: [],
-        found: [],
-        status: GameStatus.PLAYING,
-        clicks: [],
-      });
     return {
       level: levelDoc.level,
       grid: levelDoc.grid,
@@ -52,48 +57,63 @@ export class GameSessionsService {
       status: session.status,
       found: session.found,
       sessionId: session._id,
-      warnings: 0,
+      warnings: session.warnings.length,
       totalCorrect: levelDoc.pattern.length,
+      startedAt: session.startedAt,
     };
   }
 
   async canPlayLevel(user: string, level: number) {
-    const previousLevel = await this.gameSessionsModel.findOne({
-      user,
+    if (level === 1) return { canPlay: true };
+
+    const previousLevelWon = await this.gameSessionsModel.findOne({
+      user: new Types.ObjectId(user),
       level: level - 1,
+      status: GameStatus.WON,
     });
-    if (!previousLevel) return { canPlay: true };
-    const prev = previousLevel.level;
-    if (previousLevel.status !== GameStatus.WON) {
-      return { canPlay: false, prev };
+
+    if (!previousLevelWon) {
+      return { canPlay: false, prev: level - 1 };
     }
+
     return { canPlay: true };
   }
 
   async handleClick(user: string, level: number, boxIndex: number) {
     const levelDoc = await this.levelsModel.findOne({ level });
-    if (!levelDoc) throw new NotFoundException();
-    let session = await this.findOne(user, level);
+    if (!levelDoc) throw new NotFoundException('Level not found');
+
+    let session = await this.gameSessionsModel.findOne({
+      user: new Types.ObjectId(user),
+      level,
+      status: GameStatus.PLAYING,
+    });
 
     if (!session) {
-      session = await this.create({
-        user,
+      session = await this.gameSessionsModel.create({
+        user: new Types.ObjectId(user),
         level,
+        status: GameStatus.PLAYING,
+        startedAt: new Date(),
       });
     }
+
     if (session.status !== GameStatus.PLAYING) {
       throw new BadRequestException('Game already finished');
     }
 
-    if (session.found.includes(boxIndex)) throw new BadRequestException();
+    if (session.found.includes(boxIndex)) {
+      throw new BadRequestException('Box already found');
+    }
 
     const correct = levelDoc.pattern.includes(boxIndex);
     session.clicks.push({ boxIndex, correct, createdAt: new Date() });
 
     if (correct) {
       session.found.push(boxIndex);
-      if (session.found.length === levelDoc.pattern.length)
+      if (session.found.length === levelDoc.pattern.length) {
         session.status = GameStatus.WON;
+      }
     } else {
       const alreadyClickedWrong = session.warnings.includes(boxIndex);
       session.warnings.push(boxIndex);
@@ -103,8 +123,21 @@ export class GameSessionsService {
       }
     }
 
+    // Calculate duration when game ends
+    if (
+      session.status === GameStatus.WON ||
+      session.status === GameStatus.LOST
+    ) {
+      session.completedAt = new Date();
+      session.duration = Math.round(
+        (session.completedAt.getTime() - session.startedAt.getTime()) / 1000,
+      );
+    }
+
     await session.save();
+
     return {
+      correct,
       level: levelDoc.level,
       grid: levelDoc.grid,
       story: levelDoc.story,
@@ -114,23 +147,41 @@ export class GameSessionsService {
       found: session.found,
       warnings: session.warnings.length,
       sessionId: session._id,
+      duration: session.duration,
     };
   }
 
   async handleReview(user: string, level: number) {
     const levelDoc = await this.levelsModel.findOne({ level }).select('grid');
-    if (!levelDoc) throw new NotFoundException();
-    const session = await this.findOne(user, level).select('status clicks');
-    if (!session) throw new NotFoundException();
-    if (session.status !== GameStatus.WON)
-      throw new BadRequestException('Cannot review yet');
+    if (!levelDoc) throw new NotFoundException('Level not found');
 
-    const { clicks } = session;
+    const session = await this.gameSessionsModel
+      .findOne({
+        user: new Types.ObjectId(user),
+        level,
+        status: GameStatus.WON,
+      })
+      .sort({ createdAt: -1 });
+
+    if (!session) {
+      throw new BadRequestException(
+        'No completed winning session available to review',
+      );
+    }
+
     return {
       level,
       grid: levelDoc.grid,
-      clicks,
+      clicks: session.clicks,
+      duration: session.duration,
+      completedAt: session.completedAt,
     };
+  }
+
+  async findByUser(user: string) {
+    return this.gameSessionsModel
+      .find({ user: new Types.ObjectId(user) })
+      .sort({ createdAt: -1 });
   }
 
   create(createGameSessionDto: CreateGameSessionDto) {
@@ -142,15 +193,15 @@ export class GameSessionsService {
   }
 
   findOne(user: string, level: number) {
-    return this.gameSessionsModel.findOne({ level, user });
-  }
-
-  findUserSessions(user: string) {
-    return this.gameSessionsModel.find({ user });
+    return this.gameSessionsModel
+      .findOne({ level, user: new Types.ObjectId(user) })
+      .sort({ createdAt: -1 });
   }
 
   update(id: string, updateGameSessionDto: UpdateGameSessionDto) {
-    return this.gameSessionsModel.findByIdAndUpdate(id, updateGameSessionDto);
+    return this.gameSessionsModel.findByIdAndUpdate(id, updateGameSessionDto, {
+      new: true,
+    });
   }
 
   remove(id: string) {

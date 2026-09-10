@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+﻿import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type UsersDocument = HydratedDocument<Users>;
 
@@ -13,15 +13,22 @@ export interface Session {
   createdAt: Date;
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Users {
-  _id: string;
+  @Prop({ unique: true, sparse: true })
+  publicId?: string; // e.g. PAT-1000 for patients
 
   @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Hospital' })
+  hospitalId?: mongoose.Types.ObjectId;
+
+  @Prop({})
+  createdAt: Date;
 
   @Prop({
     type: [
@@ -39,8 +46,12 @@ export class Users {
   })
   sessions: Session[];
 
-  @Prop({ required: true, default: 'user' })
-  role: 'user' | 'admin';
+  @Prop({
+    required: true,
+    default: 'user',
+    enum: ['user', 'admin', 'hospital_admin', 'hospital_staff'],
+  })
+  role: 'user' | 'admin' | 'hospital_admin' | 'hospital_staff';
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);

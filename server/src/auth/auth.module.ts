@@ -1,26 +1,27 @@
-import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+﻿import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UsersModule } from '../users/users.module';
 import { Users, UsersSchema } from '../users/users.schema';
+import { PatientHospitalLinksModule } from '../patient-hospital-links/patient-hospital-links.module';
+import { CounterModule } from '../counter/counter.module';
 
 @Module({
   imports: [
+    UsersModule,
+    PatientHospitalLinksModule,
+    CounterModule, // Provides CounterService to AuthService
     MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('ACCESS_TOKEN_SECRET'),
-        signOptions: { expiresIn: '30m' },
-        global: true,
-      }),
-      inject: [ConfigService],
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET || 'supersecretkey',
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [JwtModule],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

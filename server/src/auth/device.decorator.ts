@@ -24,7 +24,6 @@ export const RealMetadata = createParamDecorator(
 
     const userAgent = req.headers['user-agent'] ?? '';
 
-    // UAParser() as a function — no `new`, no unsafe-call/unsafe-assignment
     const { browser, os, device } = parse(userAgent);
     return {
       ip,
