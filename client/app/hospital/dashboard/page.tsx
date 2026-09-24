@@ -100,7 +100,7 @@ export default function HospitalDashboardPage() {
         <section className={pageStyles.welcomeBanner}>
           <h2>{hospital?.name}</h2>
           <p>
-            Hospital Code: <strong>{hospital?.hospitalCode || hospital?.publicId}</strong>
+            Hospital Code: <strong>{hospital?.publicId}</strong>
           </p>
         </section>
 

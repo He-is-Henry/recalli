@@ -17,6 +17,10 @@ export default function LevelsPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // Account menu & logout modal states
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
   useEffect(() => {
     async function loadLevelsData() {
       try {
@@ -56,19 +60,46 @@ export default function LevelsPage() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <div className={styles.headerTop}>
-          <div>
-            <h1 className={styles.title}>Recalli</h1>
-            {user && (
-              <p className={styles.userBadge}>
-                Logged in as <strong>{user.email}</strong> (ID: {user.publicId})
-              </p>
+        <h1 className={styles.title}>Recalli</h1>
+
+        {user && (
+          <div className={styles.userMenuContainer}>
+            <button
+              className={styles.userMenuTrigger}
+              onClick={() => setIsUserMenuOpen((prev) => !prev)}
+            >
+              <span className={styles.userAvatar}>
+                {user.email?.[0]?.toUpperCase() || "U"}
+              </span>
+              <span className={styles.userEmail}>{user.email}</span>
+              <span className={styles.dropdownChevron}>▾</span>
+            </button>
+
+            {isUserMenuOpen && (
+              <>
+                <div
+                  className={styles.menuBackdrop}
+                  onClick={() => setIsUserMenuOpen(false)}
+                />
+                <div className={styles.userDropdown}>
+                  <div className={styles.userInfoHeader}>
+                    <p className={styles.userDropdownEmail}>{user.email}</p>
+                    <p className={styles.userDropdownId}>ID: {user._id}</p>
+                  </div>
+                  <button
+                    className={styles.logoutDropdownBtn}
+                    onClick={() => {
+                      setIsUserMenuOpen(false);
+                      setShowLogoutConfirm(true);
+                    }}
+                  >
+                    Log Out
+                  </button>
+                </div>
+              </>
             )}
           </div>
-          <button onClick={logout} className={styles.logoutBtn}>
-            Logout
-          </button>
-        </div>
+        )}
       </header>
 
       <HealthcareSection />
@@ -109,6 +140,35 @@ export default function LevelsPage() {
           </div>
         )}
       </section>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowLogoutConfirm(false)}
+        >
+          <div
+            className={styles.modalCard}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Confirm Logout</h3>
+            <p className={styles.modalText}>
+              Are you sure you want to log out of Recalli?
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                className={styles.cancelBtn}
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button className={styles.confirmLogoutBtn} onClick={logout}>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
