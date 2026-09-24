@@ -9,7 +9,7 @@ import {
   PopulatedPatientHospitalLink,
   ApiError,
 } from "@/lib/api";
-import styles from "../app/(protected)/levels/levels.module.css"
+import styles from "../app/(protected)/levels/levels.module.css";
 
 export default function HealthcareSection() {
   const [myHospitals, setMyHospitals] = useState<PopulatedPatientHospitalLink[]>([]);
@@ -87,22 +87,25 @@ export default function HealthcareSection() {
     <section className={styles.hospitalSection}>
       <h2 className={styles.sectionTitle}>Healthcare Providers</h2>
 
-      {/* Hospital Tab Strip */}
-      <div className={styles.hospitalTabsRow}>
-        {myHospitals.map((link) => {
-          const isActive = activeHospital?._id === link._id;
-          return (
-            <button
-              key={link._id}
-              onClick={() => setSelectedHospitalId(link._id)}
-              className={`${styles.hospitalTab} ${isActive ? styles.hospitalTabActive : ""}`}
-            >
-              <span className={styles.tabDot} data-status={link.status} />
-              <span className={styles.tabName}>{link.hospitalId.name}</span>
-            </button>
-          );
-        })}
+      {/* Header wrapper for tabs and pinned button */}
+      <div className={styles.tabsHeaderWrapper}>
+        <div className={styles.hospitalTabsRow}>
+          {myHospitals.map((link) => {
+            const isActive = activeHospital?._id === link._id;
+            return (
+              <button
+                key={link._id}
+                onClick={() => setSelectedHospitalId(link._id)}
+                className={`${styles.hospitalTab} ${isActive ? styles.hospitalTabActive : ""}`}
+              >
+                <span className={styles.tabDot} data-status={link.status} />
+                <span className={styles.tabName}>{link.hospitalId.name}</span>
+              </button>
+            );
+          })}
+        </div>
 
+        {/* Pinned action button */}
         <button
           className={styles.addHospitalTabBtn}
           onClick={() => setIsModalOpen(true)}
